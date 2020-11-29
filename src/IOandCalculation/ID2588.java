@@ -31,5 +31,4 @@ class ID2588 {
     }
 }
 
-
-// Need to be more abstractically!
+// Think of the cases with that bNum is 1, 12, 122, 1222. 
