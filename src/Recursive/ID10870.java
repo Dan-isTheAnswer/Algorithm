@@ -12,11 +12,11 @@ class ID10870 {
         System.out.println(doFibonacci(n));
     }
 
-    public static int doFibonacci(int n) {
-        if (n <2) {
-            return n;
+    public static int doFibonacci(int num) {
+        if (num <2) {
+            return num;
         }
-        return doFibonacci(n-1) + doFibonacci(n-2);
+        return doFibonacci(num-1) + doFibonacci(num-2);
     } 
 }
 // I approached this problem with respect to a mathmetic concept.
