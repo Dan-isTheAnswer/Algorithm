@@ -3,42 +3,55 @@ package DataStructure;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
-public class ID10828 {
-    private static ArrayList<String> arr;
-    private static StringBuilder sb;
+class ID10828 {
+    // Problems and Answers
+    private static final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private static final StringBuilder sb = new StringBuilder();
+
+    private Stack<String> stack;
 
     private ID10828() {
-        arr = new ArrayList<>();
-        sb = new StringBuilder();
+        stack = new Stack<>();
     }
 
     public static void main(String[] args) throws IOException {
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        ID10828 thisis = new ID10828();
 
         int n = Integer.parseInt(br.readLine());
-        new ID10828();
 
         while(n-- >0) {
             StringTokenizer st = new StringTokenizer(br.readLine(), " ");
             switch (st.nextToken()) {
                 case "push":
-                    push(st.nextToken()); 
+                    thisis.stack.push(st.nextToken());
                     break;
                 case "top":
-                    top();
+                    if(thisis.stack.isEmpty()) {
+                        sb.append("-1\n");
+                    } else{
+                        String str = thisis.stack.peek();
+                        sb.append(str+"\n");
+                    }
                     break;
                 case "size":
-                    size();
+                    sb.append(thisis.stack.size()+"\n");
                     break;
                 case "pop":
-                    pop();
+                    if(thisis.stack.isEmpty()) {
+                        sb.append("-1\n");
+                    } else {
+                        sb.append(thisis.stack.pop()+"\n");
+                    }
                     break;
                 case "empty":
-                    empty();
+                    if (thisis.stack.isEmpty()) {
+                        sb.append("1\n");
+                    } else {
+                        sb.append("0\n");
+                    }
                     break;
             
                 default:
@@ -47,35 +60,5 @@ public class ID10828 {
         }
         
         System.out.println(sb); 
-    }
-
-    private static void push(String input) {
-        arr.add(input);
-    }
-
-    private static void pop() {
-        if (!arr.isEmpty()) {
-            sb.append(arr.get(arr.size()-1)+ "\n");
-            arr.remove(arr.size()-1);
-        } else {
-            sb.append("-1\n");
-        }
-    }
-
-    private static void size() {
-        sb.append(arr.size()+"\n");
-    }
-
-    private static void empty() {
-        // if empty : 1; if not empty : 0
-        if(arr.isEmpty()) {
-            sb.append("1\n");
-        } else {
-            sb.append("0\n");
-        }
-    }
-
-    private static void top() {
-        sb.append(arr.get(arr.size()-1)+"\n");
     }
 }
