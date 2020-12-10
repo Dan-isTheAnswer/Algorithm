@@ -2,7 +2,6 @@ package DataStructure;
 
 import java.util.ArrayList;
 
-// Adjacency List Graph
 class AdjacencyListGraph<E extends Comparable<E>> { // e.g. "Graph<Data>"" gr = new Graph<Data>();
     private ArrayList<Vertex> verticies;
 
@@ -19,6 +18,7 @@ class AdjacencyListGraph<E extends Comparable<E>> { // e.g. "Graph<Data>"" gr = 
             adjacentVerticies = new ArrayList<>();
         }
 
+        // foreach statement to use data.
         public boolean addAdjacentVertex(Vertex toV) {
             for(Vertex v : adjacentVerticies) {
                 if(v.data.compareTo(toV.data) == 0) {
@@ -28,6 +28,7 @@ class AdjacencyListGraph<E extends Comparable<E>> { // e.g. "Graph<Data>"" gr = 
             return adjacentVerticies.add(toV);
         }
 
+        // conventional for statement to use index. 
         public boolean removeAdjacentVertex(E to) {
             for(int i = 0; i < adjacentVerticies.size(); i++) {
                 if(adjacentVerticies.get(i).data.compareTo(to) == 0) {
@@ -39,6 +40,9 @@ class AdjacencyListGraph<E extends Comparable<E>> { // e.g. "Graph<Data>"" gr = 
         }
     }
 
+    // check if fromV -> toV or toV -> fromV
+    // Otherwise, make either of them.
+    // add the edge with the direction from fromV to toV. d
     public boolean addEdge(E from, E to) {
         Vertex fromV = null, toV = null;
         for (Vertex v : verticies) {
@@ -90,6 +94,7 @@ class AdjacencyListGraph<E extends Comparable<E>> { // e.g. "Graph<Data>"" gr = 
         return sb.toString();
     }
 }
+// Note that ArrayList includes Direction!!
 // verticies vs adjacentVerticies.
 // fromV has the reference of toV
 
@@ -116,6 +121,14 @@ public class Graph {
 
     }
 }
+
+/* How to Code Algorithms: 
+ * Look at input and output from outside to inside.
+ * e.g. main() -> addEdge() -> addAdjacentVertex()
+ * 
+ * However, when you learn an algorithm, 
+ * it's good to know fields first such as "what is this for?" 
+ */
 
 
 
