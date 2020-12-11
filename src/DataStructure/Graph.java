@@ -2,7 +2,7 @@ package DataStructure;
 
 import java.util.ArrayList;
 
-class AdjacencyListGraph<E extends Comparable<E>> { // e.g. "Graph<Data>"" gr = new Graph<Data>();
+class AdjacencyListGraph<E extends Comparable<E>> { // e.g. "Graph<Data>" gr = new Graph<Data>();
     private ArrayList<Vertex> verticies;
 
     public AdjacencyListGraph() {
@@ -40,9 +40,9 @@ class AdjacencyListGraph<E extends Comparable<E>> { // e.g. "Graph<Data>"" gr = 
         }
     }
 
-    // check if fromV -> toV or toV -> fromV
+    // check if there are fromV and toV. 
     // Otherwise, make either of them.
-    // add the edge with the direction from fromV to toV. d
+    // add the edge with the direction from fromV to toV. 
     public boolean addEdge(E from, E to) {
         Vertex fromV = null, toV = null;
         for (Vertex v : verticies) {
@@ -107,14 +107,14 @@ public class Graph {
 
     public static void main(String[] args) {
         AdjacencyListGraph<Integer> graph = new AdjacencyListGraph<>();
-        assert graph.addEdge(1, 2);
-        assert graph.addEdge(1, 5);
-        assert graph.addEdge(2, 5);
-        assert !graph.addEdge(1, 2);
-        assert graph.addEdge(2, 3);
-        assert graph.addEdge(3, 4);
-        assert graph.addEdge(4, 1);
-        assert !graph.addEdge(2, 3);
+        graph.addEdge(1, 2);
+        graph.addEdge(1, 5);
+        graph.addEdge(2, 5);
+        graph.addEdge(1, 2);
+        graph.addEdge(2, 3);
+        graph.addEdge(3, 4);
+        graph.addEdge(4, 1);
+        graph.addEdge(2, 3);
         
         System.out.println(graph);
 
