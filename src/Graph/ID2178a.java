@@ -45,7 +45,7 @@ class ID2178a {
       visited[pair[0]][pair[1]] = true;
 
       for (int i = 0; i < 4; i++) {
-        int nY = pair[0] + dy[i];
+        int nY = pair[0] + dy[i]; // new x and new y
         int nX = pair[1] + dx[i];
         if (nX >= 0 && nX < m && nY >= 0 && nY < n 
           && !visited[nY][nX] && maze[nY][nX] != 0) {
