@@ -1,0 +1,11 @@
+what makes each graph on BFSIterative.java and Graph.java different 
+is that, IMO, their view points: Edge or Vertex.
+
+Graph on BFSIterative.java has a simpler implementation of Graph
+because it constructs graph using its constructor. 
+(It just overwrite data so it doesn't matter add some same data.) 
+
+I think the former one uses index (Edge and Vertex).
+i.e. Edge is kind of index and through the Edge we can get some data in Node instance.
+While the latter one uses data directly (Vertex).
+i.e. we can get some data directly through the Vertex. 
