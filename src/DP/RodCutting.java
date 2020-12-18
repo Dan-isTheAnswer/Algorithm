@@ -1,44 +1,40 @@
 package DP;
 
-import java.util.Arrays;
 
-/**
- * A DynamicProgramming solution for Rod cutting problem Returns the best
- * obtainable price for a rod of length n and price[] as prices of different
- * pieces
- */
 class RodCutting {
 
-    private static int[] cutRod(int[] price, int n) {
-        int[] val = new int[n+1];
+    private static int cutRod(int[] prices, int size) {
+        int[] val = new int[size+1];
         val[0] = 0;
 
-        for (int i = 1; i <= n; i++) {
+        for (int i = 1; i <= size; i++) {
             int max_val = Integer.MIN_VALUE;
-            for (int j = 0; j < i; j++) max_val = Math.max(max_val, price[j] + val[i-1 -j]);
-
+            for (int j = 0; j < i; j++) { // j for price
+                int ceiling = i-1;
+                int remaining = ceiling -j; // from ceiling to 0
+                int newVal = prices[j] + val[remaining];
+                max_val = Math.max(max_val, newVal); // from prices[0] to prices[ceiling]
+            }
             val[i] = max_val;
         }
 
-        return val;
+        return val[size];
     }
 
     public static void main(String[] args) {
-        // Let's see the whole result!!
-        int[] arr = new int[] {2, 5, 13, 19, 20};
-        for (int arrSize = 1; arrSize<= arr.length; arrSize++) {
-            int[] limitedArr = Arrays.copyOf(arr, arr.length);
-            Arrays.fill(limitedArr, arrSize, arr.length, 0);
+        int[] prices = new int[] {2, 5, 13, 19, 20};
+        int size = 5;
+        int result = cutRod(prices, size);
 
-            System.out.println("Item " + arrSize + " available: ");
-            int n = 5; // price length. 
-            int[] result = cutRod(limitedArr, n);
-            for (int i=1; i<arr.length+1; i++) {
-                System.out.print(result[i] + " ");
-            }
-            System.out.println();
-        }
-        
+        System.out.println(result);
     }
 }
 
+// val[0] = 0
+/* i\j  0   1   2   3   4   
+ * 1    2   -   -   -   -   
+ * 2    4   5   -   -   -   
+ * 3    7   7   13  -   -   
+ * 4    15  15  15  19  -   
+ * 5    21  21  21  21  21  
+ */
