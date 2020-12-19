@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Queue;
 
 class GraphBFS {
-    private List<List<Edge>> adjLists;
+    private List<List<Integer>> adjLists;
 
     private GraphBFS(List<Edge> edges, int size) {
         adjLists = new ArrayList<>();
@@ -18,9 +18,8 @@ class GraphBFS {
         }
 
         for (Edge e : edges) {
-            adjLists.get(e.src).add(e); // Directed Acyclic Graph.
-            // adjLists.get(e.dest).add(e); 
-            // Error: e.g. when adding Edge(1,2), 2nd node indicates to itself becasue queue.add(e.dest). 
+            adjLists.get(e.src).add(e.dest); // Indirected Graph.
+            adjLists.get(e.dest).add(e.src); 
         }
     }
 
@@ -35,33 +34,26 @@ class GraphBFS {
     }
 
 
-    private int bfs(int s, int d) {
-        boolean[] visited = new boolean[adjLists.size()+1]; // if (visited[1] == true) I visited the vertex 1. 
-        Queue<Integer> q = new ArrayDeque<>(); 
+    // in a recursive manner 
+    private void bfs(boolean[] visited, Queue<Integer> q, int d) {
+        int node = q.poll();
 
-        // visited[s] = true;
-        q.add(s);
-
-        int pollCount = 0;
-        while (!q.isEmpty()) {
-            pollCount++;
-            int node = q.poll();
-            if (node == d) {
-                return pollCount;
-            }
-            if (!visited[node]) {
-                visited[node] = true;
-                for (Edge e : adjLists.get(node) ) {
-                    q.add(e.dest);
-                }
-            }
-
+        if (node == d) { // base case
+            System.out.println("Got it");
+            System.out.println(node);
+            return;
         }
 
-        return -1;
-
+        
+        if (!visited[node]) {
+            visited[node] = true;
+            for (Integer dest : adjLists.get(node)) {
+                q.add(dest);
+            }
+        }
+        bfs(visited, q, d);
     }
-    
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -69,9 +61,9 @@ class GraphBFS {
         for (int i = 1; i < adjLists.size(); i++) {
             sb.append(i +"th : ");
             
-            Iterator<Edge> it = adjLists.get(i).listIterator();
+            Iterator<Integer> it = adjLists.get(i).listIterator();
             while (it.hasNext()) {
-                sb.append(it.next().dest + " ");
+                sb.append(it.next() + " ");
             }
             sb.append("\n");
         }
@@ -91,9 +83,10 @@ class GraphBFS {
         );
 
         GraphBFS g = new GraphBFS(edges, 15);
-        int count = g.bfs(1, 10);
-        System.out.println(count);
+        boolean[] visited = new boolean[15+1];
+        Queue<Integer> q = new ArrayDeque<>();
+        q.add(1);
+        g.bfs(visited, q, 10);
 
-        System.out.println(g);
     }
 }
