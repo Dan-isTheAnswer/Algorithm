@@ -6,7 +6,7 @@ class RodCuttingBruteForce {
         if (len<=0) return 0;
         int max_len = Integer.MIN_VALUE;
         for (int i=0; i<len; i++) {
-            max_len = Math.max(max_len, price[i] + rodCutting(price, len-(i+1)));
+            max_len = Math.max(max_len, price[i] + rodCutting(price, len-(i+1))); // remaining: len-1 ... 0
         }
 
         return max_len;
@@ -18,3 +18,4 @@ class RodCuttingBruteForce {
         System.out.println(rodCutting(price, rod_len));
     }
 }
+// https://iq.opengenus.org/rod-cutting-problem/
