@@ -2,16 +2,20 @@ package DP;
 
 class RodCutting_Fin {
 
-    // Brute-force
+    // DP: Bottom-up
     private static int cutRod(int[] prices, int size) {
-        if (size == 0) return 0; // base case 
+        int[] val = new int[size+1];
 
-        int maxVal = Integer.MIN_VALUE; // flag
-        for (int i = 0; i < size; i++) {
-            maxVal = Math.max(maxVal, prices[i] + cutRod(prices, size-1 -i));
+        val[0] = 0;
+        for (int i = 1; i < size+1; i++) { // i for controling size and index of each val.
+            int maxVal = Integer.MIN_VALUE; // flag
+            for (int j = 0; j < i; j++) {
+                maxVal = Math.max(maxVal, prices[j] + val[i-1 -j]);
+            }
+            val[i] = maxVal;
         }
 
-        return maxVal;
+        return val[size];
     }
 
     public static void main(String[] args) {
