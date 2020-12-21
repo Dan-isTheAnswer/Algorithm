@@ -3,22 +3,21 @@ package DP;
 /** A DynamicProgramming based solution for 0-1 Knapsack problem */
 public class Knapsack01 {
 
-  private static int knapSack(int W, int wt[], int val[], int n) throws IllegalArgumentException {
-    if (wt == null || val == null) throw new IllegalArgumentException();
-    int i, w;
-    int rv[][] = new int[n + 1][W + 1]; // rv means return value
+  private static int knapSack(int w, int values[], int[] weights, int numItems) throws IllegalArgumentException {
+    if (weights == null || values == null) throw new IllegalArgumentException();
+    int rv[][] = new int[numItems + 1][w + 1]; // rv means return value
 
     // Build table rv[][] in bottom up manner
-    for (i = 0; i <= n; i++) {
-      for (w = 0; w <= W; w++) {
-        if (i == 0 || w == 0) rv[i][w] = 0;
-        else if (wt[i - 1] <= w)
-          rv[i][w] = Math.max(val[i - 1] + rv[i - 1][w - wt[i - 1]], rv[i - 1][w]);
-        else rv[i][w] = rv[i - 1][w];
+    for (int i = 0; i <= numItems; i++) { // i for index of items.
+      for (int j = 0; j <= w; j++) { // j for index of weights. 
+        if (i == 0 || j == 0) rv[i][j] = 0;
+        else if (weights[i - 1] <= j)
+          rv[i][j] = Math.max(values[i - 1] + rv[i - 1][j - weights[i - 1]], rv[i - 1][j]);
+        else rv[i][j] = rv[i - 1][j];
       }
     }
 
-    return rv[n][W];
+    return rv[numItems][w];
   }
 
   // Driver program to test above function
@@ -27,6 +26,6 @@ public class Knapsack01 {
     int wt[] = new int[] {10, 20, 40};
     int W = 50;
     int n = val.length;
-    System.out.println(knapSack(W, wt, val, n));
+    System.out.println(knapSack(W, val, wt, n));
   }
 }
