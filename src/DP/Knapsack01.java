@@ -1,24 +1,31 @@
 package DP;
 
-/** A DynamicProgramming based solution for 0-1 Knapsack problem */
+/** A Brute-force-based solution for 0-1 Knapsack problem */
 public class Knapsack01 {
 
-  private static int knapSack(int w, int values[], int[] weights, int numItems) throws IllegalArgumentException {
-    if (weights == null || values == null) throw new IllegalArgumentException();
-    int rv[][] = new int[numItems + 1][w + 1]; // rv means return value
+    // Brute-force
+    private static int knapSack(int w, int[] values, int[] weights, int numItems) {
 
-    // Build table rv[][] in bottom up manner
-    for (int i = 0; i <= numItems; i++) { // i for index of items.
-      for (int j = 0; j <= w; j++) { // j for index of weights. 
-        if (i == 0 || j == 0) rv[i][j] = 0;
-        else if (weights[i - 1] <= j)
-          rv[i][j] = Math.max(values[i - 1] + rv[i - 1][j - weights[i - 1]], rv[i - 1][j]);
-        else rv[i][j] = rv[i - 1][j];
-      }
+            // precondition: weights must be in ascending order. 
+            if (numItems == 0 || w < weights[0]) return 0; //base case
+
+            int maxVal = Integer.MIN_VALUE;
+            for (int i = 0; i < numItems; i++) {
+                int valWithout = knapSack(w, values, weights, numItems-1 -i);
+                if (w >= weights[numItems-1]) {
+                    int valWith = values[numItems-1] + knapSack(w-weights[numItems-1], values, weights, numItems-1 -i);
+
+                    // maxVal vs value without the current item vs value with the current item
+                    maxVal = Integer.max(maxVal, valWithout);
+                    maxVal = Integer.max(maxVal, valWith);
+                }
+                else {
+                    maxVal = Integer.max(maxVal, valWithout);
+                }
+            }
+
+            return maxVal;
     }
-
-    return rv[numItems][w];
-  }
 
   // Driver program to test above function
   public static void main(String args[]) {
