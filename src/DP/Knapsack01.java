@@ -27,3 +27,5 @@ public class Knapsack01 {
         System.out.println(result);
   }
 }
+
+// https://www.geeksforgeeks.org/0-1-knapsack-problem-dp-10/
