@@ -20,7 +20,6 @@ public class SequentialSearchST<Key, Value> {
     }
 
     public int size() {return N; }
-
     public boolean isEmpty() { return size() == 0; }
 
     public boolean contains(Key key) {
