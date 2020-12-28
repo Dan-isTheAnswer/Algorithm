@@ -1,67 +1,85 @@
+// https://www.acmicpc.net/problem/2178
 package Graph;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.ArrayDeque;
+import java.util.Queue;
 
-import Graph.ID2178.Graph.Edge;
-
+// Shortest Path(BFS)
 class ID2178 {
-    private static int n = 4;
-    private static int m = 6;
-    private static int[] data = new int[n*m];
-    private static int[] ans = new int[n*m];
-    
-    public static void main(String[] args) throws IOException {
-        List<String> strLines = new ArrayList<>();
-        strLines.add("101111");
-        strLines.add("101010");
-        strLines.add("101011");
-        strLines.add("111011");
+    // 0: west; 1: south; 2: east; 3: north;
+    private static int[] dx = {-1, 0, 1, 0};
+    private static int[] dy = {0, -1, 0, 1};
+    private static int[][] maze; // (y, x)
+    private static int[][] ans;
 
-        for (String line: strLines) {
-            preprocessData(m, line);
-        }
+
+    private static int bfs(int desty, int destx) {
+        int[] src = new int[]{0, 0};
+
+        boolean[][] visited = new boolean[maze.length][maze[0].length];
+        Queue<int[]> q = new ArrayDeque<>();
+
+        int[] turn = src;
+        q.add(turn);
+        visited[turn[0]][turn[1]] = true;
+        System.out.println(turn[0] + " " + turn[1]);
+
         
-        Graph graph = new Graph(n*m);
+        while(!q.isEmpty()) {
+            turn = q.poll();
 
-    }
+            // Check out four directions to go. 
+            for (int i = 0; i < 4; i++) {
+                int nY = turn[0] + dy[i];
+                int nX = turn[1] + dx[i];
+                if (nY >= 0 && nX >= 0 && 
+                    nY <= 6 && nX <= 6 &&
+                    visited[nY][nX] != true && 
+                    maze[nY][nX] != 0) {
+                    
+                    ans[nY][nX] += ans[turn[0]][turn[1]];
 
-    public static void preprocessData(int m, String line) {
-            data[i] = line.charAt(i) - '0';
-    }
+                    q.add(new int[]{nY, nX});
+                    visited[nY][nX] = true;
+                    System.out.println(turn[0] + " " + turn[1]);
+                }
 
-
-    private static class Graph {
-        List<List<Integer>> verticies;
-
-        public Graph(List<Edge> edges, int n) {
-            verticies = new ArrayList<>();
-            for (int i=0; i<n; i++) {
-                List<Integer> adjVerticies = new ArrayList<>();
-                verticies.add(adjVerticies);
-            }
-
-            for (Edge e : edges) {
-                verticies.get(e.src).add(e.dest);
-            }
-        }
-
-
-        private class Edge {
-            int src;
-            int dest;
-
-            public Edge(int src, int dest) {
-                this.src = src;
-                this.dest = dest;
             }
 
         }
+
+        return ans[desty][destx];
+    }
+
+
+    public static void main(String[] args) {
+        
+        maze = new int[][]{
+                           {1, 0, 1, 1, 1, 1, 1},
+                           {1, 1, 1, 0, 0, 0, 1},
+                           {1, 0, 0, 0, 0, 0, 1},
+                           {1, 0, 0, 0, 0, 0, 1},
+                           {1, 0, 0, 0, 0, 0, 1},
+                           {1, 0, 0, 0, 0, 0, 1},
+                           {1, 1, 1, 1, 1, 1, 1}};
+
+        ans = new int[][]{
+                           {1, 0, 1, 1, 1, 1, 1},
+                           {1, 1, 1, 0, 0, 0, 1},
+                           {1, 0, 0, 0, 0, 0, 1},
+                           {1, 0, 0, 0, 0, 0, 1},
+                           {1, 0, 0, 0, 0, 0, 1},
+                           {1, 0, 0, 0, 0, 0, 1},
+                           {1, 1, 1, 1, 1, 1, 1}};
+        int result = bfs(6, 6);
+        System.out.println(result);
+        
+        System.out.println("Hello");
+
     }
 }
-// TODO: Not finished yet. 
+// If you want to implement XY chart programmatically, 
+/**
+ * If you want to implement a XY chart programmatically,
+ * Think of for-loop order i.e. (y, x).
+ */
