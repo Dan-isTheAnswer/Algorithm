@@ -1,6 +1,8 @@
 // https://www.acmicpc.net/problem/1932
 package DP;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 // DP: Top-down
@@ -19,48 +21,63 @@ class ID1932 {
         s[3] = tree4;
 
         StringTokenizer st;
-        int[] values = new int[totalNum(n)];
+        List<Integer> values = new ArrayList<>();
 
-        int index = 0;
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(s[i]);
             while (st.hasMoreTokens()) {
-                values[index++] = Integer.parseInt(st.nextToken());
+                Integer e = Integer.parseInt(st.nextToken());
+                values.add(e);
             }
         }
-        int[]val = new int[values.length];
+        int[]val = new int[values.size()];
 
         int result = maxVal(val, n, 0, 0, 0, values);
         System.out.println(result);
 
     }
 
-    private static int totalNum (int n) {
-        int total = 0;
-        for (int i = 1; i <= n; i++) 
-            total += i;
+    /**
+     * 
+     * @param val is array of DP values
+     * @param N is total level (flag 1).
+     * @param n is hierarchical level from 0 to N-1 (flag 2)  
+     * @param order is indicator. If order == 0, left. If order == 1, right. 
+     * @param parent is parent index. 
+     * @param input is array of input values. 
+     * @return max value
+     */
+    public static int maxVal(int[] val, int N, int n, int order, int parent, List<Integer> input) {
+        int child = n + order + parent; // child of the parent
 
-        return total;
-    }
-
-
-    public static int maxVal(int[] val, int N, int n, int order, int pIndex, int[] input) {
-        if (N == n+1) {
-            val[n+order+pIndex] = input[n+order+pIndex];
-            return val[n+order+pIndex];
+        if (N == n+1) { // base case
+            val[child] = input.get(child);
+            return val[child];
         }
 
-        if (val[n+order+pIndex] != 0) {
-            return val[n+order+pIndex];
+        if (val[child] != 0) {
+            return val[child];
         }
 
         int max = 0;
-        max = Integer.max(maxVal(val, N, n+1, 0, n+order+pIndex, input), maxVal(val, N, n+1, 1, n+order+pIndex, input));
-        val[n+order+pIndex] = max + input[n+order+pIndex];
+        max = Integer.max(maxVal(val, N, n+1, 0, child, input), maxVal(val, N, n+1, 1, child, input));
+        val[child] = max + input.get(child);
 
-        return val[n+order+pIndex];
+        return val[child];
     }
 }
+
+/**
+ * Rule of Thumb: Fomula must be simple. 
+ * The reason why the hierarchical level is from 0 to N-1, not from 1 to N, 
+ * is that by doing so predictable and less changeable:)
+ */
+
+/**
+ * Look at the position of parent index and child index in the maxVal method. 
+ * Parent index is considered a parameter 
+ * while child index is considered the processing index. 
+ */
 
 /**
  * recommend DAC -> DP 
@@ -75,7 +92,7 @@ class ID1932 {
   * e.g. if (neverChangedFlag == flag) return; 
   */
 
-  /**
-   * you can use 2D-Array (Grid) and 1D-Array (optimzied values).
-   * I think using 2D-Array is easier to solve DP. 
-   */
+ /**
+  * you can use 2D-Array (Grid) and 1D-Array (optimzied values).
+  * I think using 2D-Array is easier to solve DP. 
+  */
