@@ -3,7 +3,7 @@ package DP;
 
 import java.util.StringTokenizer;
 
-// DP: Bottom-up
+// DP: Top-down
 class ID1932 {
 
     public static void main(String[] args) {
@@ -18,31 +18,47 @@ class ID1932 {
         s[2] = tree3;
         s[3] = tree4;
 
-
-        
-        int[][] list = new int[n][n];
-        int[][] dp = new int[n][n];
-
         StringTokenizer st;
+        int[] values = new int[totalNum(n)];
+
+        int index = 0;
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(s[i]);
-            for (int j = 0; j <= i; j++) {
-                list[i][j] = Integer.parseInt(st.nextToken());
-
-                if (i == n -1) {
-                    dp[i][j] = list[i][j]; // values in the last line. 
-                }
+            while (st.hasMoreTokens()) {
+                values[index++] = Integer.parseInt(st.nextToken());
             }
         }
+        int[]val = new int[values.length];
 
-        for (int i = n -2; i>= 0; i--) {
-            for (int j = 0; j <= i; j++) {
-                dp[i][j] = list[i][j] + Math.max(dp[i+1][j], dp[i+1][j+1]);
-            }
+        int result = maxVal(val, n, 0, 0, 0, values);
+        System.out.println(result);
+
+    }
+
+    private static int totalNum (int n) {
+        int total = 0;
+        for (int i = 1; i <= n; i++) 
+            total += i;
+
+        return total;
+    }
+
+
+    public static int maxVal(int[] val, int N, int n, int order, int pIndex, int[] input) {
+        if (N == n+1) {
+            val[n+order+pIndex] = input[n+order+pIndex];
+            return val[n+order+pIndex];
         }
 
-        System.out.println(dp[0][0]);
+        if (val[n+order+pIndex] != 0) {
+            return val[n+order+pIndex];
+        }
 
+        int max = 0;
+        max = Integer.max(maxVal(val, N, n+1, 0, n+order+pIndex, input), maxVal(val, N, n+1, 1, n+order+pIndex, input));
+        val[n+order+pIndex] = max + input[n+order+pIndex];
+
+        return val[n+order+pIndex];
     }
 }
 
