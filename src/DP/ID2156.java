@@ -6,55 +6,31 @@ class ID2156 {
 
     public static void main(String[] args) {
         int n = 6;
-        // int[] values = new int[] {6, 10, 13, 9, 8, 1};
-        int[] values = new int[] {999, 999, 1, 1, 999, 999};
+        // int[] values = new int[] {0, 6, 10, 13, 9, 8, 1};
+        int[] values = new int[] {0, 999, 999, 1, 1, 999, 999};
 
         int result = answer(n, values);
         System.out.println(result);
     }
 
 
-    public static int answer(int N, int[] values) {
-        int[] val1 = new int[N]; // not seq
-        int[] val2 = new int[N]; // seq
+    public static int answer(int n, int[] values) {
+        int[] dp = new int[10001];
+        
+        dp[1] = values[1];
+        dp[2] = dp[1] + values[2];
 
-        int a = maxVal(N, false, 0, values, val1, val2);
-        int b = maxVal(N, false, 1, values, val1, val2);
-        // System.out.println(Arrays.toString(val1));
-        // System.out.println();
-        // System.out.println(Arrays.toString(val2));
-        return Integer.max(a, b);
-    }
-    
-    /**
-     * DNC
-     * Run (N, false, 0, values) and (N, false, 1, values) together.
-     */
-    public static int maxVal(int N, boolean isSeq, int index, int[] values, int[] val1, int[] val2) {
-        if (N == 0 || index >= values.length) return 0; // values.length
-
-        if (!isSeq && val1[index] != 0) {
-            return val1[index];
-        } else if (isSeq && val2[index] != 0) {
-            return val2[index];
+        for (int i = 3; i <= n; i++) {
+            dp[i] = Integer.max(Integer.max(dp[i-1], dp[i-2] + values[i]), dp[i-3] + values[i-1] + values[i]);
+            // System.out.println(dp[i]);
         }
 
-
-        int max = 0;
-        if (isSeq) {
-            max = maxVal(N-1, false, index+2, values, val1, val2);
-            max += values[index];
-            val2[index] = max;
-
-            return val2[index];
-        } else {
-            max = Integer.max(maxVal(N-1, true, index+1, values, val1, val2), maxVal(N-1, false, index+2, values, val1, val2));
-            max += values[index];
-            val1[index] = max;
-
-            return val1[index];
-        }
+        return dp[n];
     }
 }
-// e.g. index: (1 -> 3 -> 4) > (2 -> 3 -> 4) 
-
+/**
+ * three cases:
+ * 1) dp[i-1]
+ * 2) dp[i-2] + values[i]
+ * 3) dp[i-3] + values[i-1] + values[i]
+ */
