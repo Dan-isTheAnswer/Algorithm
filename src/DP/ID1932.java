@@ -1,8 +1,6 @@
 // https://www.acmicpc.net/problem/1932
 package DP;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
 
 // DP: Top-down
@@ -21,50 +19,47 @@ class ID1932 {
         s[3] = tree4;
 
         StringTokenizer st;
-        List<Integer> values = new ArrayList<>();
+        int[] values = new int[totalNum(4)];
 
+        int index = 0;
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(s[i]);
             while (st.hasMoreTokens()) {
-                Integer e = Integer.parseInt(st.nextToken());
-                values.add(e);
+                values[index++] = Integer.parseInt(st.nextToken());
             }
         }
-        int[]val = new int[values.size()];
+        int[]val = new int[values.length];
 
-        int result = maxVal(val, n, 0, 0, 0, values);
+        int result = maxVal(n, n, 0, values, val);
         System.out.println(result);
 
     }
 
-    /**
-     * 
-     * @param val is array of DP values
-     * @param N is total level (flag 1).
-     * @param n is hierarchical level from 0 to N-1 (flag 2)  
-     * @param order is indicator. If order == 0, left. If order == 1, right. 
-     * @param parent is parent index. 
-     * @param input is array of input values. 
-     * @return max value
-     */
-    public static int maxVal(int[] val, int N, int n, int order, int parent, List<Integer> input) {
-        int child = n + order + parent; // child of the parent
-
-        if (N == n+1) { // base case
-            val[child] = input.get(child);
-            return val[child];
+    private static int totalNum(int n) {
+        int total = 0;
+        for (int i = 1; i <= n; i++) {
+            total += i;
         }
 
-        if (val[child] != 0) {
-            return val[child];
-        }
-
-        int max = 0;
-        max = Integer.max(maxVal(val, N, n+1, 0, child, input), maxVal(val, N, n+1, 1, child, input));
-        val[child] = max + input.get(child);
-
-        return val[child];
+        return total;
     }
+
+    public static int maxVal(int N, int n, int index, int[] input, int[] val) {
+        if (n == 0 || index >= input.length) return 0; // base case
+
+        if (val[index] != 0) return val[index];
+
+        int level = N -n; // from 0 to 3
+
+        int max = 0; 
+        max = Integer.max(maxVal(N, n-1, level + index +1, input, val), 
+                          maxVal(N, n-1, level + index +2, input, val));
+        max += input[index];
+        val[index] = max;
+
+        return val[index];
+    }
+
 }
 
 /**
@@ -74,9 +69,9 @@ class ID1932 {
  */
 
 /**
- * Look at the position of parent index and child index in the maxVal method. 
- * Parent index is considered a parameter 
- * while child index is considered the processing index. 
+ * Look at the position of current index and child index in the maxVal method. 
+ * Current index is handed over through a method parameter. 
+ * And, child index will be handed over recursively. 
  */
 
 /**
@@ -84,15 +79,8 @@ class ID1932 {
  * because, the less num of parameters you have, the easier to implement. 
  */
 
- /**
-  * parameters: flag, input[], DP-val[]. 
-  * if flag comes down to 0, you have one flag. 
-  * e.g. if (flag == 0) return;
-  * if not, you have two flags. 
-  * e.g. if (neverChangedFlag == flag) return; 
-  */
 
- /**
-  * you can use 2D-Array (Grid) and 1D-Array (optimzied values).
-  * I think using 2D-Array is easier to solve DP. 
-  */
+/**
+ * you can use 2D-Array (Grid) and 1D-Array (optimzied values).
+* I think using 2D-Array is easier to solve DP. 
+*/
