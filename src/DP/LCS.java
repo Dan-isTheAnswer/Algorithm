@@ -17,14 +17,17 @@ class LCS {
     }
 
     // DP
-    public static int lcs(String s2, String s1) {
+    public static int lcs(String s1, String s2) {
         int[][] cell = new int[s1.length()+1][s2.length()+1];
 
+        // i for fish and j for fosh
         for (int i = 0; i < s1.length(); i++) {
             for (int j = 0; j < s2.length(); j++) {
                 if (s1.charAt(i) == s2.charAt(j)) {
+                    // i.e. Bring the maximum lcs which doesn't include str1.charAt(i) and str2.charAt(j)
                     cell[i+1][j+1] = cell[i][j] + 1;
                 } else {
+                    // e.g. which lsc between fis and fos vs lsc between fish and fo is larger?
                     cell[i+1][j+1] = Integer.max(cell[i][j+1], cell[i+1][j]); // Longest Common Subsequence
                     // cell[i+1][j+1] = 0; // Longest Common Substring
                 }
