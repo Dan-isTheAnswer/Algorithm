@@ -46,10 +46,10 @@ class NQ {
                 // If failed, reset its path from the last point (BACKTRACK). 
                 if (solveNQUtil(board, col+1) == true) {
                     return true;
-                } else { 
-                    board[i][col] = 0; // **backtrack
-                }
+                } 
+
             }
+            board[i][col] = 0; // **backtrack
         }
 
         return false;
