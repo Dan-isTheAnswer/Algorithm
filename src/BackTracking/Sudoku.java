@@ -1,5 +1,8 @@
 package BackTracking;
 
+import java.util.ArrayList;
+import java.util.List;
+
 // Backtracking: advanded NQ problem 
 class Sudoku{
 
@@ -18,7 +21,7 @@ class Sudoku{
         //                                 {1, 3, 2},
         //                                 {3, 2, 1}};
         
-        // int[][] sudoku = new int[][] { {0, 1, 3},
+        // int[][] grid = new int[][] { {0, 1, 3},
         //                                 {1, 0, 2},
         //                                 {0, 2, 1}};
                                         
@@ -27,40 +30,35 @@ class Sudoku{
     }
 
     public static void backtrack(int[][] grid) {
-        if (backtrackUtil(grid, 0, 0)) {
+        List<int[]> markup = lookup(grid);
+        if (backtrackUtil(grid, markup, 0)) {
             printAns(grid);
         } else {
-            System.out.println("faild");
+            System.out.println("failed");
         }
 
     }
 
-    private static boolean backtrackUtil(int[][] grid, int row, int col) {
-        if (row >= grid.length-1 && col >= grid.length) {
+    private static boolean backtrackUtil(int[][] grid, List<int[]> markup, int n) {
+        
+        if (n >= markup.size()) {
             return true; // base case
         }
-
-        // **change row
-        if (col == grid.length) {
-            row++;
-            col = 0;
-        }
-        // **skip to the next
-        if (grid[row][col] >0) 
-            return backtrackUtil(grid, row, col+1);
-
+        int[] tmp = markup.get(n);
+        int nY = tmp[0];
+        int nX = tmp[1];
 
         for (int num = 1; num <= grid.length; num++) {
-            if (isSafe(grid, row, col,num)) {
-                grid[row][col] = num;
+            if (isSafe(grid, nY, nX,num)) {
+                grid[nY][nX] = num;
 
                 // right
-                if (backtrackUtil(grid, row, col+1)) {
+                if (backtrackUtil(grid, markup, n+1)) {
                     return true;
                 } 
 
             }
-            grid[row][col] = 0;
+            grid[nY][nX] = 0;
         }
 
         return false; 
@@ -94,6 +92,19 @@ class Sudoku{
         }
 
         return true;
+    }
+
+    // look up 0 
+    private static List<int[]> lookup(int[][] grid) {
+        List<int[]> markup = new ArrayList<>();
+
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid.length; j++) {
+                if (grid[i][j] == 0) markup.add(new int[] {i, j});
+            }
+        }
+
+        return markup;
     }
 
     private static void printAns(int[][] grid) {
