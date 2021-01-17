@@ -7,20 +7,28 @@ import java.util.Queue;
 // Dijkstra vs BFS: int[] dist which stores the distances from src to v
 class MyShortestPath{
     
-    private static int V = 9;
+    private static int V = 7;
     
     public static void main(String[] args) {
         
 		/* Let us create the example graph discussed above */
-		int graph[][] = new int[][] { { 0, 4, 0, 0, 0, 0, 0, 8, 0 }, 
-									{ 4, 0, 8, 0, 0, 0, 0, 11, 0 }, 
-									{ 0, 8, 0, 7, 0, 4, 0, 0, 2 }, 
-									{ 0, 0, 7, 0, 9, 14, 0, 0, 0 }, 
-									{ 0, 0, 0, 9, 0, 10, 0, 0, 0 }, 
-									{ 0, 0, 4, 14, 10, 0, 2, 0, 0 }, 
-									{ 0, 0, 0, 0, 0, 2, 0, 1, 6 }, 
-									{ 8, 11, 0, 0, 0, 0, 1, 0, 7 }, 
-									{ 0, 0, 2, 0, 0, 0, 6, 7, 0 } }; 
+		// int graph[][] = new int[][] { { 0, 4, 0, 0, 0, 0, 0, 8, 0 }, 
+		// 							{ 4, 0, 8, 0, 0, 0, 0, 11, 0 }, 
+		// 							{ 0, 8, 0, 7, 0, 4, 0, 0, 2 }, 
+		// 							{ 0, 0, 7, 0, 9, 14, 0, 0, 0 }, 
+		// 							{ 0, 0, 0, 9, 0, 10, 0, 0, 0 }, 
+		// 							{ 0, 0, 4, 14, 10, 0, 2, 0, 0 }, 
+		// 							{ 0, 0, 0, 0, 0, 2, 0, 1, 6 }, 
+		// 							{ 8, 11, 0, 0, 0, 0, 1, 0, 7 }, 
+        // 							{ 0, 0, 2, 0, 0, 0, 6, 7, 0 } }; 
+        
+        int graph[][] = new int[][] { { 0, 0, 1, 2, 0, 0, 0 }, 
+                                      { 0, 0, 2, 0, 0, 3, 0 }, 
+                                      { 1, 2, 0, 1, 3, 0, 0 },
+                                      { 2, 0, 1, 0, 0, 0, 1 }, 
+                                      { 0, 0, 3, 0, 0, 2, 0 }, 
+                                      { 0, 3, 0, 0, 2, 0, 1 }, 
+                                      { 0, 0, 0, 1, 0, 1, 0 } };
         dijkstraBFS(graph, 0);
     }
 
@@ -38,13 +46,13 @@ class MyShortestPath{
 
         while (!q.isEmpty()) {
             int u = q.poll();
-            visited[u] = true;
+            visited[u] = true; // **mark true after poll
             for (int v = 0; v < V; v++) {
                 // if there is a path from src to v through u
                 if (dist[u] != Integer.MAX_VALUE && graph[u][v] != 0) {
                     if (!visited[v] && dist[v] > dist[u] + graph[u][v]) {
-                        dist[v] = dist[u] + graph[u][v];
-                        q.add(v);
+                        dist[v] = dist[u] + graph[u][v]; // **dist[v] could be changed anytime so we mark visited true when polling
+                        q.add(v); 
                     }
                 }
             }
