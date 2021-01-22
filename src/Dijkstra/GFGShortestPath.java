@@ -1,7 +1,7 @@
 package Dijkstra;
 
 class GFGShortestPath {
-    private static int V = 7;
+    private static int V = 5;
     
     public static void main(String[] args) {
         
@@ -17,9 +17,11 @@ class GFGShortestPath {
         // 							{ 0, 0, 2, 0, 0, 0, 6, 7, 0 } }; 
         
 
-        int graph[][] = new int[][] { { 0, 0, 1, 2, 0, 0, 0 }, { 0, 0, 2, 0, 0, 3, 0 }, { 1, 2, 0, 1, 3, 0, 0 },
-        { 2, 0, 1, 0, 0, 0, 1 }, { 0, 0, 3, 0, 0, 2, 0 }, { 0, 3, 0, 0, 2, 0, 1 }, { 0, 0, 0, 1, 0, 1, 0 } };
-        dijkstra(graph, 0); 
+        // int graph[][] = new int[][] { { 0, 0, 1, 2, 0, 0, 0 }, { 0, 0, 2, 0, 0, 3, 0 }, { 1, 2, 0, 1, 3, 0, 0 },
+        // { 2, 0, 1, 0, 0, 0, 1 }, { 0, 0, 3, 0, 0, 2, 0 }, { 0, 3, 0, 0, 2, 0, 1 }, { 0, 0, 0, 1, 0, 1, 0 } };
+
+        int[][] graph = new int[][] {{0, 0, 0, 0, 0}, {0, 0, 2, 10, 0},{0, 5, 0, 10, 1},{0, 1, 0, 0, 0},{0, 0, 0, 4, 0}};
+        dijkstra(graph, 1); 
     }
 
     public static void dijkstra(int[][] graph, int src) {
@@ -46,6 +48,7 @@ class GFGShortestPath {
         printDist(dist);
     }
 
+    // vertex u is determined by its distance. 
     private static int minDistIndex(int[] dist, boolean[] visited) {
         int min = Integer.MAX_VALUE, min_index = -1;
         for (int u = 0; u < V; u++) {
