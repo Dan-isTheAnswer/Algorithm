@@ -1,7 +1,7 @@
 package Dijkstra;
 
 class GFGShortestPath {
-    private static int V = 5;
+    private static int numV = 5;
     
     public static void main(String[] args) {
         
@@ -25,18 +25,18 @@ class GFGShortestPath {
     }
 
     public static void dijkstra(int[][] graph, int src) {
-        int[] dist = new int[V]; // distance from src to v
-        boolean[] visited = new boolean[V];
+        int[] dist = new int[numV]; // distance from src to v
+        boolean[] visited = new boolean[numV];
 
-        for (int i = 0; i < V; i++) {
+        for (int i = 0; i < numV; i++) {
             dist[i] = Integer.MAX_VALUE;
         }
 
         dist[src] = 0;
-        for (int i = 0; i < V-1; i++) {
+        for (int i = 0; i < numV-1; i++) {
             int u = minDistIndex(dist, visited);
             visited[u] = true;
-            for (int v = 0; v < V; v++) {
+            for (int v = 0; v < numV; v++) {
                 // if there is a path from src to u && from u to v
                 if (dist[u] != Integer.MAX_VALUE && graph[u][v] != 0) { 
                     if (!visited[v] && dist[u] + graph[u][v] < dist[v]) {
@@ -51,10 +51,10 @@ class GFGShortestPath {
     // vertex u is determined by its distance. 
     private static int minDistIndex(int[] dist, boolean[] visited) {
         int min = Integer.MAX_VALUE, min_index = -1;
-        for (int u = 0; u < V; u++) {
-            if (visited[u] == false && dist[u] < min) {
-                min = dist[u];
-                min_index = u;
+        for (int v = 0; v < numV; v++) {
+            if (visited[v] == false && dist[v] < min) {
+                min = dist[v];
+                min_index = v;
             }
         }
 
@@ -63,7 +63,7 @@ class GFGShortestPath {
 
     private static void printDist(int[] dist) {
         System.out.println("Vertex \t\t Distance from Source"); 
-        for (int i = 0; i < V; i++) 
+        for (int i = 0; i < numV; i++) 
             System.out.println(i + " \t\t " + dist[i]); 
     }
 

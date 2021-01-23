@@ -10,7 +10,7 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 // no visited set
-class ID1753op1 {
+class ID1753failed {
 
     private static class Node {
         int d;
@@ -61,7 +61,7 @@ class ID1753op1 {
             System.out.println();
         }
 
-        ID1753op1 ans = new ID1753op1();
+        ID1753failed ans = new ID1753failed();
         ans.solve(vertices, start);
     }
 

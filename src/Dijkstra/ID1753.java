@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/1753
 package Dijkstra;
 
 import java.io.IOException;
@@ -9,28 +10,28 @@ import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 // visited set
-class ID1753op2 {
-    private static class Graph implements Comparable<Graph> {
-        Node u;
+class ID1753 {
+    private static class Direction implements Comparable<Direction> {
+        Edge edge;
         int dist;
 
-        Graph(Node u, int dist) {
-            this.u = u;
+        Direction(Edge edge, int dist) {
+            this.edge = edge;
             this.dist = dist;
         }
 
         @Override
-        public int compareTo(Graph o) {
+        public int compareTo(Direction o) {
             return Integer.compare(dist, o.dist);
         }
     }
 
-    private static class Node {
-        int d;
+    private static class Edge {
+        int dest;
         int w;
 
-        Node(int d, int w){
-            this.d = d;
+        Edge(int dest, int w){
+            this.dest = dest;
             this.w = w;
         }
     }
@@ -53,7 +54,7 @@ class ID1753op2 {
         String[] input = {"1 2 2", "1 3 3", "2 4 1", "4 5 2", "3 5 1"}; // E times
 
         StringTokenizer st;
-        List<List<Node>> vertices = new ArrayList<>();
+        List<List<Edge>> vertices = new ArrayList<>();
         for (int i = 0; i < V+1; i++) {
             vertices.add(new ArrayList<>()); // add adjVertices
         }
@@ -62,15 +63,15 @@ class ID1753op2 {
             int src = Integer.parseInt(st.nextToken());
             int dest = Integer.parseInt(st.nextToken());
             int weight = Integer.parseInt(st.nextToken());
-            vertices.get(src).add(new Node(dest, weight));
+            vertices.get(src).add(new Edge(dest, weight));
         }
 
 
-        ID1753op2 ans = new ID1753op2();
+        ID1753 ans = new ID1753();
         ans.solve(vertices, start);
     }
 
-    public void solve(List<List<Node>> vertices, int start) {
+    public void solve(List<List<Edge>> vertices, int start) {
         int[] result = djk(vertices, start);
         System.out.println(Arrays.toString(result));
         for (int i = 1; i < result.length; i++) {
@@ -83,29 +84,26 @@ class ID1753op2 {
         }
     }
 
-    public int[] djk(List<List<Node>> vertices, int start) {
-        PriorityQueue<Graph> q = new PriorityQueue<>();
-        boolean[] visited = new boolean[vertices.size()];
+    public int[] djk(List<List<Edge>> vertices, int start) {
+        PriorityQueue<Direction> q = new PriorityQueue<>();
         int[] dist = new int[vertices.size()];
         for (int i = 0; i < vertices.size(); i++) {
             dist[i] = Integer.MAX_VALUE;
         }
         dist[start] = 0;
 
-        q.add(new Graph(new Node(start, 0), 0));
+        q.add(new Direction(new Edge(start, 0), 0));
 
         while (!q.isEmpty()) {
-            int u = q.poll().u.d;
-            visited[u] = true;
-            List<Node> adjV = vertices.get(u);
+            int u = q.poll().edge.dest;
+            List<Edge> adjV = vertices.get(u);
 
-            for (ListIterator<Node> vIt = adjV.listIterator(); vIt.hasNext(); ) {
-                Node v = vIt.next();
+            for (ListIterator<Edge> vIt = adjV.listIterator(); vIt.hasNext(); ) {
+                Edge v = vIt.next();
                 if (dist[u] != Integer.MAX_VALUE) {
-                    if (!visited[v.d] && 
-                        dist[v.d] > dist[u] + v.w) {
-                        dist[v.d] = dist[u] + v.w;
-                        q.add(new Graph(new Node(v.d, v.w), dist[v.d]));
+                    if (dist[v.dest] > dist[u] + v.w) {
+                        dist[v.dest] = dist[u] + v.w;
+                        q.add(new Direction(new Edge(v.dest, v.w), dist[v.dest]));
                         
                     }
                 }
@@ -115,13 +113,13 @@ class ID1753op2 {
         return dist;
     }
 
-    public static void printVertices(List<List<Node>> vertices) {
+    public static void printVertices(List<List<Edge>> vertices) {
 
         for (int i = 0; i < vertices.size(); i++) {
-            List<Node> source = vertices.get(i);
-            for (ListIterator<Node> lI = source.listIterator(); lI.hasNext(); ) {
-                Node a = lI.next();
-                System.out.println("source is : " + i + " has " + a.d + " with weight : " + a.w);
+            List<Edge> source = vertices.get(i);
+            for (ListIterator<Edge> lI = source.listIterator(); lI.hasNext(); ) {
+                Edge a = lI.next();
+                System.out.println("source is : " + i + " has " + a.dest + " with weight : " + a.w);
             }
             System.out.println();
         }
@@ -147,4 +145,32 @@ class ID1753op2 {
  * which results in {0 2 3 3 4}
  */
 
- // visited is useless??
+
+/**
+ * visited[] + minDistIndex VS. Priority Queue 
+ * 
+ * minDistIndex in which iteration occurrs while finding the index having the min distance 
+ * 
+ * Priority Queue provides three basic operations: 
+ * 1) add vertex with priority
+ * 2) decrease vertex's priority
+ * 3) extract min vertex 
+ * when using pq, visited[] is unnecessary because unvisited verticeis from u are added in Priority Queue:)
+ * 
+ * Thus, Prioriy Queue is more preferable since it is easy to implement
+ * and efficient when a graph has a lot of vertices (according to ref 2).
+ */
+
+/**
+ * !!Not recommended:
+ * Queue + visited[] could cause bad performance 
+ * since updating happens sequentially. 
+ */
+
+/**
+ * References:
+ * 1) https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
+ * 2) https://sungjk.github.io/2016/05/13/Dijkstra.html
+ * 3) https://www.acmicpc.net/board/view/34516
+ * 
+ */
