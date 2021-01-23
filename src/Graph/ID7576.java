@@ -70,7 +70,7 @@ class ID7576tmp2 {
             return maxVal - 1;
     }
 
-    private static void print() {
+    public static void print() {
         for (int[] i : maze) {
             for (int j : i) {
                 System.out.print(j + " ");

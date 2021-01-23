@@ -11,11 +11,13 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
 
     public BinarySearchST() { this(INIT_CAPACITY); }
 
+    @SuppressWarnings("unchecked")
     public BinarySearchST(int capacity) {
         keys = (Key[]) new Comparable[capacity];
         vals = (Value[]) new Object[capacity];
     }
 
+    @SuppressWarnings("unchecked")
     private void resize(int capacity) {
         assert capacity >= N;
         Key[] tempk = (Key[]) new Comparable[capacity];

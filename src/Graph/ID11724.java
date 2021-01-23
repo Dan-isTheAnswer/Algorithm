@@ -11,7 +11,7 @@ class ID11724 {
     public static void main(String[] args) throws IOException {
 
         int N = 6; 
-        int numEdge = 8;
+        // int numEdge = 8;
         List<List<Integer>> adjLists = new ArrayList<>();
         for (int i = 0; i < N+1; i++) {
             adjLists.add(new ArrayList<>());

@@ -26,6 +26,7 @@ class BFSGeeksForGeeks {
         private int V;
         private LinkedList<Integer> adj[];
 
+        @SuppressWarnings("unchecked")
         Graph(int v) {
             V = v;
             adj =  new LinkedList[v];

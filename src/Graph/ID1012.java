@@ -9,9 +9,9 @@ class ID1012 {
     private static int[] dx = {-1, 0, 1, 0};
 
     public static void main(String[] args) {
-        int x = 10;
-        int y = 6;
-        int cabbages = 14;
+        int col = 10;
+        int row = 6;
+        // int cabbages = 14;
 
         int[][] maze = {{1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
                             {0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -28,16 +28,16 @@ class ID1012 {
         //                 {0,0,0,0,0},
         //                 {0,0,0,0,0}};
 
-        int result = bugsForCabbage(maze);
+        int result = bugsForCabbage(maze, row, col);
         System.out.println(result);
 
     }
 
-    public static int bugsForCabbage(int[][] maze) {
+    public static int bugsForCabbage(int[][] maze, int row, int col) {
 
         int bugs = 0;
-        for (int i = 0; i < maze.length; i++) {
-            for (int j = 0; j < maze[0].length; j++) {
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
                 if (maze[i][j] == 1) {
                     bugs++;
                     howWillBugGoFar_BFS(i, j, maze);

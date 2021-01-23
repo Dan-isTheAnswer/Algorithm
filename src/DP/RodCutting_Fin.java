@@ -35,7 +35,7 @@ class RodCutting_Fin {
         System.out.println(result);
     }
 
-    private static void printAns(int[][] ans, int size) {
+    public static void printAns(int[][] ans, int size) {
         for (int i=0; i<size+1; i++) {
             System.out.println(i + "\'s row: ");
             int[] a = ans[i];
