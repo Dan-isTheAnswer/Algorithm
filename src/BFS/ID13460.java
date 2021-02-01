@@ -156,3 +156,13 @@ class ID13460 {
         
     }
 }
+
+/**
+ * Considered as locations, not as Dimentions, 
+ * we can directly access by the four indices!!
+ * boolean[][][][] visited = new boolean[n][m][n][m]; 
+ * 
+ * If we need to know changes of few things 
+ * and they change at the same time, 
+ * Take a snapshot!!
+ */
