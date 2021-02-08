@@ -22,12 +22,12 @@ class Main {
         }
 
         Main m = new Main();
-        m.val = new int[n][3];
-        int result = m.solve(table, n, -1);
+        m.val = new int[n][3]; // [n][RGB]
+        int result = m.solve(table, n, -1);  
         System.out.println(result);
     }
 
-    // (table, 3, -1)
+    // (table, 3, -1): -1 means nothing is its previous one.
     public int solve(int[][] table, int n, int previous) {
         int N = table.length;
         if (n == 0)
@@ -45,7 +45,7 @@ class Main {
 
                 if (comp < minVal) {
                     minVal = comp;
-                    val[N-n][i] = minVal;
+                    val[N-n][i] = minVal; // update
                 }
             }
         }
