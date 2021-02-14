@@ -6,13 +6,14 @@ import java.util.List;
 
 class ID17140 {
     static int[][] map;
-    static int r; 
+    static int r;
     static int c;
     static int target;
-    static int lenR; 
+    static int lenR;
     static int lenC;
 
-    static int[][] ans = new int[100][100];
+    // the worst case is one time for each value
+    static int[][] ans = new int[200][200];
 
     private static class Node implements Comparable<Node> {
         int i;
@@ -30,7 +31,7 @@ class ID17140 {
     }
 
     public static void main(String[] args) {
-        String q = "1 2 4"; // when a[1][2] = 1 ?? ans is 52
+        String q = "1 2 4"; // ans is 52
         String[] inputs = {
             "1 2 1",
             "2 1 3",
@@ -55,23 +56,23 @@ class ID17140 {
             }
         }
 
-        // for (int e : problem) {
-        //     System.out.printf("e is: %s /", e);
-        // }
         printMap(1);
         System.out.println("Start!");
-        // System.out.println();
-        // for (int[] a : map) {
-        //     System.out.println(Arrays.toString(a));
-        // }
         ID17140 m = new ID17140();
         int result = m.solve(ans[r][c], true, 0);
         System.out.println(result);
 
     }
 
-    // (ans[r][c], true, 0); return time and update ans[][]
-    public int solve(int cur, boolean isR, int time) { // current value, current len, current time
+    /**
+     * (ans[r][c], true, 0);
+     * 
+     * @param cur current value
+     * @param isR which one between row and column is larger
+     * @param time times we recursively call this function
+     * @return time and update ans[][]
+     */
+    public int solve(int cur, boolean isR, int time) { 
         if (target == cur) {
             return time;
         } else if (time > 100) {
@@ -82,16 +83,19 @@ class ID17140 {
         if (isR) {
             for (int i = 0; i < lenR; i++) {
 
-                int[] val = new int[lenC+1]; // index 0**
-                //count number
+                int[] val = new int[101]; // value could be 1 to 100
+                int upto = -1;
+                //count each value
                 for (int j = 0; j < lenC; j++) {
                     val[ans[i][j]]++;
+                    upto = Math.max(upto, ans[i][j]);
                 }
 
                 // sort values using LinkedList
                 List<Node> tmp = new LinkedList<>(); // container
-                for (int j = 1; j < lenC+1; j++) {
-                    tmp.add(new Node(j, val[j]));
+                for (int j = 1; j <= upto; j++) {
+                    if (val[j] != 0) 
+                        tmp.add(new Node(j, val[j]));
                 }
                 tmp.sort((e1, e2) -> e1.compareTo(e2));
                 
@@ -107,27 +111,31 @@ class ID17140 {
                 if (lenC < col) {
                     lenC = col;
                 }
-                // handle remainders
-                for (int j = col; j < lenC && ans[i][j] != 0; j++) {
+                
+                // handle remainders 
+                // set ans[i][j] as 0 upto the largest length of column
+                for (int j = col; j < lenC; j++) {
                     ans[i][j] = 0;
                 }
-
             }
             if (lenR < lenC) 
                 isR = false;
         } else {
             for (int i = 0; i < lenC; i++) {
 
-                int[] val = new int[lenR+1]; // index 0**
-                //count number
+                int[] val = new int[101];
+                int upto = -1;
+                //count each value
                 for (int j = 0; j < lenR; j++) {
                     val[ans[j][i]]++;
+                    upto = Math.max(upto, ans[j][i]);
                 }
 
                 // sort values using LinkedList
                 List<Node> tmp = new LinkedList<>(); // container
-                for (int j = 1; j < lenR+1; j++) {
-                    tmp.add(new Node(j, val[j]));
+                for (int j = 1; j <= upto; j++) {
+                    if (val[j] != 0) 
+                        tmp.add(new Node(j, val[j]));
                 }
                 tmp.sort((e1, e2) -> e1.compareTo(e2));
                 
@@ -143,13 +151,13 @@ class ID17140 {
                 if (lenR < row) {
                     lenR = row;
                 }
-                // handle remainders
-                for (int j = row; j < lenR && ans[j][i] != 0; j++) {
+                
+                // handle remainders 
+                // set ans[i][j] as 0 upto the largest length of row 
+                for (int j = row; j < lenR; j++) {
                     ans[j][i] = 0;
                 }
-
             }
-
 
             if (lenR >= lenC)
                 isR = true;
@@ -160,7 +168,7 @@ class ID17140 {
     }
 
     private static void printMap(int cnt) {
-        if (cnt <= 4) {
+        if (cnt < 10) {
             for (int i = 0; i < 10; i++) {
                 for (int j = 0; j < 10; j++){
                     System.out.print(ans[i][j] + " ");
@@ -170,5 +178,13 @@ class ID17140 {
             System.out.println();
         }
     }
-
 }
+
+/**
+ * How to change row value while fixing col value 
+ * for (int i = 0; i < 3; i++) {
+ *  for (int j = 0; j < 3; j++) {
+ *      ans[j++][i];
+ *  }
+ * }
+ */
