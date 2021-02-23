@@ -12,7 +12,7 @@ class ID1699 {
         d[0] = 0;
         d[1] = 1;
 
-        // bottom to top
+        // bottom-up
         for (int i = 2; i <= n; i++) {
             // init curr which consists of only 1
             int curr = i; 
