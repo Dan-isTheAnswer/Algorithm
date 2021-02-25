@@ -1,11 +1,11 @@
 BFS
 - 7576, 4963, 2667
 
-DP (num of cases)
+DP (num of cases) dealing with index
 - 1699, 2293, 1010
 
-DP (what is the max or min val?)
-- Rod Cutting, 01Knapsack, 1149, 1932, 2156, 2579 
+DP (what is the max or min val?) dealing with val
+- Rod Cutting, 01Knapsack, 1149, 1932, 2156, 2579, 14501 
 
 String
 - https://tech.kakao.com/2020/07/01/2020-internship-test/, 1541
