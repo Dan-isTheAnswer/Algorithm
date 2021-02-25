@@ -1,4 +1,4 @@
-package Bruteforth;
+package Bruteforce;
 
 import java.util.Scanner;
 

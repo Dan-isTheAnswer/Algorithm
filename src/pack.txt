@@ -9,3 +9,9 @@ DP (what is the max or min val?) dealing with val
 
 String
 - https://tech.kakao.com/2020/07/01/2020-internship-test/, 1541
+
+Backtracking
+- 14888, 1339, 9663
+
+BFS + Bruteforce
+- 14502, 19236
