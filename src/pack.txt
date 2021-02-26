@@ -15,3 +15,6 @@ Backtracking
 
 BFS + Bruteforce
 - 14502, 19236
+
+Greedy
+- 1931, 1946
